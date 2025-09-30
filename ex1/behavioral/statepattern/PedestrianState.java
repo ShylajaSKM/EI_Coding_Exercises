@@ -1,21 +1,17 @@
 package ex1.behavioral.statepattern;
 
+import java.util.logging.Logger;
+
 public class PedestrianState implements TrafficLightState {
+    private static final Logger logger = Logger.getLogger(PedestrianState.class.getName());
 
     @Override
-    public void changeLight(TrafficLightController controller) {
-        System.out.println("[Pedestrian Crossing] RED lights for vehicles, pedestrians walk");
-        try {
-            Thread.sleep(1000); // Simulate pedestrian crossing
-        } catch (InterruptedException e) {
-            System.err.println("Error in PedestrianState: " + e.getMessage());
-        }
-        // After pedestrian crossing, return to normal
-        controller.setState(new NormalState());
+    public void handle(TrafficLightController controller) {
+        logger.info("Traffic Light: PEDESTRIAN mode, stop vehicles, allow crossing");
     }
 
     @Override
     public String getStateName() {
-        return "Pedestrian Crossing State";
+        return "Pedestrian Mode";
     }
 }

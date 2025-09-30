@@ -1,43 +1,34 @@
-
 package ex1.behavioral.statepattern;
-import java.util.Scanner;
+
+import java.util.logging.Logger;
 
 public class TrafficLightController {
+    private static final Logger logger = Logger.getLogger(TrafficLightController.class.getName());
     private TrafficLightState currentState;
 
     public TrafficLightController(TrafficLightState initialState) {
+        if (initialState == null) throw new IllegalArgumentException("Initial state cannot be null");
         this.currentState = initialState;
     }
 
-    public void setState(TrafficLightState state) {
-        System.out.println("Transitioning to: " + state.getStateName());
-        this.currentState = state;
+    public void setState(TrafficLightState newState) {
+        if (newState == null) {
+            logger.severe("Cannot set null state");
+            throw new IllegalArgumentException("New state cannot be null");
+        }
+        logger.info("Transitioning to: " + newState.getStateName());
+        this.currentState = newState;
     }
 
-    public void run() {
-        Scanner scanner = new Scanner(System.in);
-        boolean running = true;
-
-        while (running) {
-            System.out.println("\nCurrent State: " + currentState.getStateName());
-            System.out.println("Choose event: 1-Pedestrian 2-Emergency 3-Night 4-Normal 5-Exit");
-            int choice = scanner.nextInt();
-
-            switch (choice) {
-                case 1 -> currentState = new PedestrianState();
-                case 2 -> currentState = new EmergencyState();
-                case 3 -> currentState = new NightState();
-                case 4 -> currentState = new NormalState();
-                case 5 -> running = false;
-                default -> System.out.println("Invalid input. Try again.");
-            }
-
-            if (running) {
-                currentState.changeLight(this);
-            }
+    public void execute() {
+        try {
+            currentState.handle(this);
+        } catch (Exception e) {
+            logger.severe("Error executing state " + currentState.getStateName() + ": " + e.getMessage());
         }
+    }
 
-        System.out.println("Traffic Light System Stopped.");
-        scanner.close();
+    public String getCurrentStateName() {
+        return currentState.getStateName();
     }
 }

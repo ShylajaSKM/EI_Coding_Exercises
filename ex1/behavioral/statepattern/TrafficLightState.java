@@ -1,7 +1,6 @@
 package ex1.behavioral.statepattern;
 
 public interface TrafficLightState {
-    void changeLight(TrafficLightController controller);
+    void handle(TrafficLightController controller);
     String getStateName();
 }
-

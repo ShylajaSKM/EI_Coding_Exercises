@@ -1,13 +1,14 @@
 package ex1.behavioral.chainofresponsibility;
 
-public class Level3Handler extends SupportHandler {
+import java.util.logging.Logger;
 
+public class Level3Handler extends SupportHandler {
     @Override
-    public void handleTicket(Ticket ticket) {
-        if (ticket.getComplexityLevel() == 3) {
-            System.out.println("Level 3 handled the ticket: " + ticket.getDescription());
+    public void handleRequest(SupportTicket ticket) {
+        if (ticket.getComplexity() <= 3) {
+            logger.info("Level 3 resolved ticket: " + ticket.getDescription());
         } else {
-            System.out.println("Ticket could not be handled at any level!");
+            logger.warning("Ticket requires escalation: " + ticket.getDescription());
         }
     }
 }

@@ -1,16 +1,17 @@
 package ex1.behavioral.chainofresponsibility;
 
-public class Level2Handler extends SupportHandler {
+import java.util.logging.Logger;
 
+public class Level2Handler extends SupportHandler {
     @Override
-    public void handleTicket(Ticket ticket) {
-        if (ticket.getComplexityLevel() == 2) {
-            System.out.println("Level 2 handled the ticket: " + ticket.getDescription());
+    public void handleRequest(SupportTicket ticket) {
+        if (ticket.getComplexity() <= 2) {
+            logger.info("Level 2 resolved ticket: " + ticket.getDescription());
         } else if (nextHandler != null) {
-            System.out.println("Level 2 cannot handle, passing to Level 3...");
-            nextHandler.handleTicket(ticket);
+            logger.info("Level 2 passing ticket to next handler");
+            nextHandler.handleRequest(ticket);
         } else {
-            System.out.println("Ticket could not be handled!");
+            logger.warning("Ticket could not be resolved: " + ticket.getDescription());
         }
     }
 }

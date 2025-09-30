@@ -1,41 +1,45 @@
 package ex1.behavioral.chainofresponsibility;
 
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public class Main {
+    private static final Logger logger = Logger.getLogger(Main.class.getName());
+
     public static void main(String[] args) {
-        // Setup chain: Level 1 → Level 2 → Level 3
-        Level1Handler level1 = new Level1Handler();
-        Level2Handler level2 = new Level2Handler();
-        Level3Handler level3 = new Level3Handler();
+        Scanner scanner = new Scanner(System.in);
+
+        // Setup chain
+        SupportHandler level1 = new Level1Handler();
+        SupportHandler level2 = new Level2Handler();
+        SupportHandler level3 = new Level3Handler();
 
         level1.setNextHandler(level2);
         level2.setNextHandler(level3);
 
-        Scanner scanner = new Scanner(System.in);
+        logger.info("Customer Support System Started. Enter 'exit' to quit.");
+
         boolean running = true;
-
-        System.out.println("==== Customer Support Ticket System ====");
-
         while (running) {
-            System.out.println("\nEnter ticket description:");
+            System.out.print("Enter ticket description: ");
             String desc = scanner.nextLine();
+            if ("exit".equalsIgnoreCase(desc)) break;
 
-            System.out.println("Enter ticket complexity (1-Simple, 2-Moderate, 3-Complex, 0-Exit):");
-            int complexity = scanner.nextInt();
-            scanner.nextLine(); // consume newline
-
-            if (complexity == 0) {
-                running = false;
-                System.out.println("Exiting program...");
-            } else if (complexity < 0 || complexity > 3) {
-                System.out.println("Invalid complexity level! Try again.");
-            } else {
-                Ticket ticket = new Ticket(desc, complexity);
-                level1.handleTicket(ticket);
+            System.out.print("Enter complexity (1-3): ");
+            String compStr = scanner.nextLine();
+            int complexity;
+            try {
+                complexity = Integer.parseInt(compStr);
+            } catch (NumberFormatException e) {
+                logger.warning("Invalid complexity! Defaulting to 1");
+                complexity = 1;
             }
+
+            SupportTicket ticket = new SupportTicket(desc, complexity);
+            level1.handleRequest(ticket);
         }
 
         scanner.close();
+        logger.info("System shutting down...");
     }
 }

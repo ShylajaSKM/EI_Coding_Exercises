@@ -1,21 +1,17 @@
 package ex1.behavioral.statepattern;
 
+import java.util.logging.Logger;
+
 public class NormalState implements TrafficLightState {
+    private static final Logger logger = Logger.getLogger(NormalState.class.getName());
 
     @Override
-    public void changeLight(TrafficLightController controller) {
-        System.out.println("[Normal Mode] Traffic Light: GREEN → YELLOW → RED");
-        try {
-            Thread.sleep(1000); // Simulate time delay
-        } catch (InterruptedException e) {
-            System.err.println("Error in NormalState: " + e.getMessage());
-        }
-        // Stays in normal unless external event changes
-        controller.setState(this);
+    public void handle(TrafficLightController controller) {
+        logger.info("Traffic Light: GREEN -> YELLOW -> RED");
     }
 
     @Override
     public String getStateName() {
-        return "Normal State";
+        return "Normal Mode";
     }
 }

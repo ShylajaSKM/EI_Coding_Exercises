@@ -1,21 +1,17 @@
 package ex1.behavioral.statepattern;
 
+import java.util.logging.Logger;
+
 public class EmergencyState implements TrafficLightState {
+    private static final Logger logger = Logger.getLogger(EmergencyState.class.getName());
 
     @Override
-    public void changeLight(TrafficLightController controller) {
-        System.out.println("[Emergency Mode] GREEN lights in emergency direction");
-        try {
-            Thread.sleep(1000); // Simulate emergency
-        } catch (InterruptedException e) {
-            System.err.println("Error in EmergencyState: " + e.getMessage());
-        }
-        // Return to normal after emergency
-        controller.setState(new NormalState());
+    public void handle(TrafficLightController controller) {
+        logger.warning("Emergency Mode: All signals RED, clear the road for emergency vehicles");
     }
 
     @Override
     public String getStateName() {
-        return "Emergency Vehicle State";
+        return "Emergency Mode";
     }
 }
