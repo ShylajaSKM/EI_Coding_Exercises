@@ -20,7 +20,7 @@ public class ShapeDrawer extends JPanel {
 
     public void addShape(Shape shape) {
         shapes.add(shape);
-        repaint(); // refresh panel
+        repaint(); 
     }
 
     @Override

@@ -40,10 +40,10 @@ public class Main {
                 shape = new Square(x, y, size, api);
             }
 
-            // Add to drawer for Swing
+            
             drawer.addShape(shape);
 
-            // Log to console
+            
             shape.draw();
         }
 
