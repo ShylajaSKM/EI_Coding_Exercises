@@ -4,24 +4,15 @@ public class DeviceProxy extends Device {
     private final Device realDevice;
 
     public DeviceProxy(Device realDevice) {
-        super(realDevice.getId(), realDevice.getType());
+        super(realDevice.getId());
         this.realDevice = realDevice;
     }
 
-    @Override
-    public void turnOn() {
-        System.out.println("Proxy: Accessing " + realDevice.getType() + " " + realDevice.getId());
-        realDevice.turnOn();
-    }
+    public Device getRealDevice() { return realDevice; }
 
-    @Override
-    public void turnOff() {
-        System.out.println("Proxy: Accessing " + realDevice.getType() + " " + realDevice.getId());
-        realDevice.turnOff();
-    }
+    @Override public void turnOn() { realDevice.turnOn(); }
 
-    
-    public Device getRealDevice() {
-        return realDevice;
-    }
+    @Override public void turnOff() { realDevice.turnOff(); }
+
+    @Override public void notifyObservers() { realDevice.notifyObservers(); }
 }

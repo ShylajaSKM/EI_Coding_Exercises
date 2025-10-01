@@ -3,54 +3,35 @@ package com.smart_home_system.devices;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Device implements ObservableDevice {
-    protected final int id;
-    protected final String type;
+public abstract class Device implements ObservableDevice {
+    protected int id;
     protected String status;
-    private List<DeviceObserver> observers = new ArrayList<>();
+    private final List<DeviceObserver> observers = new ArrayList<>();
 
-    public Device(int id, String type) {
+    public Device(int id) {
         this.id = id;
-        this.type = type;
+        this.status = "idle";
     }
 
-    public void turnOn() {
-        status = "on";
-        notifyObservers();
-    }
+    public int getId() { return id; }
 
-    public void turnOff() {
-        status = "off";
-        notifyObservers();
-    }
+    public String getStatus() { return status; }
 
-    public int getId() {
-        return id;
-    }
+    public void turnOn() { status = "on"; notifyObservers(); }
 
-    public String getType() {
-        return type;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    
-    @Override
-    public void addObserver(DeviceObserver observer) {
-        observers.add(observer);
-    }
+    public void turnOff() { status = "off"; notifyObservers(); }
 
     @Override
-    public void removeObserver(DeviceObserver observer) {
-        observers.remove(observer);
-    }
+    public void addObserver(DeviceObserver observer) { observers.add(observer); }
+
+    @Override
+    public void removeObserver(DeviceObserver observer) { observers.remove(observer); }
 
     @Override
     public void notifyObservers() {
-        for (DeviceObserver observer : observers) {
-            observer.update(this);
-        }
+        for (DeviceObserver observer : observers) observer.update(this);
     }
+
+    @Override
+    public String toString() { return this.getClass().getSimpleName() + " ID:" + id + " Status:" + status; }
 }

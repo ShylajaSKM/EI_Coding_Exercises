@@ -1,20 +1,9 @@
 package com.smart_home_system.devices;
 
 public class DoorLock extends Device {
-    public DoorLock(int id) {
-        super(id, "door");
-        this.status = "locked";
-    }
+    public DoorLock(int id) { super(id); this.status = "locked"; }
 
-    @Override
-    public void turnOn() {
-        status = "locked";
-        notifyObservers();
-    }
+    public void lock() { this.status = "locked"; notifyObservers(); }
 
-    @Override
-    public void turnOff() {
-        status = "unlocked";
-        notifyObservers();
-    }
+    public void unlock() { this.status = "unlocked"; notifyObservers(); }
 }

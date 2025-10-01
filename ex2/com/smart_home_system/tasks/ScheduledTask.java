@@ -13,25 +13,10 @@ public class ScheduledTask {
         this.action = action;
     }
 
-    public void execute() {
-        if (action.equalsIgnoreCase("Turn On")) {
-            device.turnOn();
-        } else if (action.equalsIgnoreCase("Turn Off")) {
-            device.turnOff();
-        } else {
-            System.out.println("ScheduledTask: Unknown action \"" + action + "\"");
-        }
-    }
+    public Device getDevice() { return device; }
 
-    public String getTime() {
-        return time;
-    }
-
-    public String getAction() {
-        return action;
-    }
-
-    public Device getDevice() {
-        return device;
+    @Override
+    public String toString() {
+        return "Task for Device " + device.getId() + " at " + time + " -> " + action;
     }
 }
